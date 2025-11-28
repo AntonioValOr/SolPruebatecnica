@@ -1,0 +1,108 @@
+﻿@model IEnumerable<Datos.Model.Registros>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Seleccionar Registros";
+
+    var tiposHoja = ViewBag.TiposHoja as List<Datos.Model.TamanoHoja> ?? new List<Datos.Model.TamanoHoja>();
+    var tiposLetra = ViewBag.TiposLetra as List<Datos.Model.TipoLetra> ?? new List<Datos.Model.TipoLetra>();
+    var tamanosLetra = ViewBag.TamanosLetra as List<Datos.Model.TamanoLetra> ?? new List<Datos.Model.TamanoLetra>();
+
+    var hojaSeleccionada = tiposHoja.FirstOrDefault()?.Nombre ?? "A4";
+    var letraSeleccionada = tiposLetra.FirstOrDefault()?.Nombre ?? "Arial";
+    var tamanoSeleccionado = tamanosLetra.FirstOrDefault()?.Valor ?? 12;
+}
+
+<h2>Seleccionar Registros</h2>
+
+@if (TempData["error"] != null)
+{
+    <div class="alert alert-danger">@TempData["error"]</div>
+}
+
+@if (TempData["m"] != null)
+{
+    <div class="alert alert-success">@TempData["m"]</div>
+}
+
+@if (!Model.Any())
+{
+    <p>No hay registros disponibles.</p>
+}
+else
+{
+    <form action="@Url.Action("GenerarPDFSeleccionados", "Registros")" method="post" enctype="multipart/form-data">
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th><input type="checkbox" id="checkAll" /></th>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Contrato</th>
+                    <th>Saldos</th>
+                    <th>Teléfono</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var reg in Model)
+                {
+                    <tr>
+                        <td>
+                            <input type="checkbox" name="registrosSeleccionados" value="@reg.IdRegistro" />
+                        </td>
+                        <td>@reg.IdRegistro</td>
+                        <td>@reg.Nombre</td>
+                        <td>@reg.Contrato</td>
+                        <td>@reg.Saldos</td>
+                        <td>@reg.Telefono</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <div class="form-group mb-2">
+            <label>Tipo de hoja:</label>
+            <select name="tipoHoja" class="form-control">
+                @foreach (var hoja in tiposHoja)
+                {
+                    <option value="@hoja.Nombre" @(hoja.Nombre == hojaSeleccionada ? "selected" : "")>@hoja.Nombre</option>
+                }
+            </select>
+        </div>
+
+        <div class="form-group mb-2">
+            <label>Tipo de letra:</label>
+            <select name="tipoLetra" class="form-control">
+                @foreach (var letra in tiposLetra)
+                {
+                    <option value="@letra.Nombre" @(letra.Nombre == letraSeleccionada ? "selected" : "")>@letra.Nombre</option>
+                }
+            </select>
+        </div>
+
+
+        <div class="form-group mb-3">
+            <label>Tamaño de letra:</label>
+            <select name="tamanoLetra" class="form-control">
+                @foreach (var tamaño in tamanosLetra)
+                {
+                    <option value="@tamaño.Valor" @(tamaño.Valor == tamanoSeleccionado ? "selected" : "")>@tamaño.Valor</option>
+                }
+            </select>
+        </div>
+
+        <div class="form-group mb-3">
+            <label>Subir imagen como marca de agua (opcional):</label>
+            <input type="file" name="marcaAgua" accept="image/*" />
+        </div>
+
+        <button type="submit" class="btn btn-success">Generar ZIP de PDFs</button>
+    </form>
+
+    <script>
+        document.getElementById('checkAll').addEventListener('change', function (e) {
+            var checkboxes = document.querySelectorAll('input[name="registrosSeleccionados"]');
+            checkboxes.forEach(cb => cb.checked = e.target.checked);
+        });
+    </script>
+}

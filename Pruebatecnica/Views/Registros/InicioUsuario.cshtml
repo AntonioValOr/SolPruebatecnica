@@ -1,0 +1,120 @@
+﻿@model IEnumerable<Datos.Model.Registros>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "InicioUsuario";
+
+    var tiposHoja = (ViewBag.TiposHoja as IEnumerable<Datos.Model.TamanoHoja>)?.ToList() ?? new List<Datos.Model.TamanoHoja>();
+    var tiposLetra = (ViewBag.TiposLetra as IEnumerable<Datos.Model.TipoLetra>)?.ToList() ?? new List<Datos.Model.TipoLetra>();
+    var tamanosLetra = (ViewBag.TamanosLetra as IEnumerable<Datos.Model.TamanoLetra>)?.ToList() ?? new List<Datos.Model.TamanoLetra>();
+}
+
+<h2>InicioUsuario</h2>
+
+@if (TempData["error"] != null)
+{
+    <div class="alert alert-danger">@TempData["error"]</div>
+}
+
+@if (TempData["m"] != null)
+{
+    <div class="alert alert-success">@TempData["m"]</div>
+}
+
+<p>
+    @Html.ActionLink("Crear Registro", "CrearRegistro", null, new { @class = "btn btn-primary" })
+</p>
+
+@using (Html.BeginForm("GenerarPDF", "Registros", FormMethod.Get))
+{
+    <button type="submit" class="btn btn-primary mb-3">Generar PDF de todos</button>
+}
+
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Contrato</th>
+            <th>Saldos</th>
+            <th>Teléfono</th>
+            <th>Opciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var reg in Model)
+        {
+            <tr>
+                <td>@reg.IdRegistro</td>
+                <td>@reg.Nombre</td>
+                <td>@reg.Contrato</td>
+                <td>@reg.Saldos</td>
+                <td>@reg.Telefono</td>
+                <td>
+                    @Html.ActionLink("Editar", "EditarRegistro", new { id = reg.IdRegistro }) |
+                    @Html.ActionLink("Eliminar", "EliminarRegistro", new { id = reg.IdRegistro }) |
+                    <button type="button" class="btn btn-sm btn-primary btnMostrarForm" data-id="@reg.IdRegistro">
+                        Descargar PDF
+                    </button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div id="formPDFIndividual" style="display:none; margin-top:20px;">
+    @using (Html.BeginForm("GenerarPDFSeleccionados", "Registros", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <input type="hidden" name="registrosSeleccionados" id="registroIdForm" />
+
+        <div class="form-group mb-2">
+            <label>Tipo de hoja:</label>
+            <select name="tipoHoja" class="form-control">
+                @foreach (var hoja in tiposHoja)
+                {
+                    <option value="@hoja.Nombre">@hoja.Nombre</option>
+                }
+            </select>
+        </div>
+
+        <div class="form-group mb-2">
+            <label>Tipo de letra:</label>
+            <select name="tipoLetra" class="form-control">
+                @foreach (var letra in tiposLetra)
+                {
+                    <option value="@letra.Nombre">@letra.Nombre</option>
+                }
+            </select>
+        </div>
+
+        <div class="form-group mb-3">
+            <label>Tamaño de letra:</label>
+            <select name="tamanoLetra" class="form-control">
+                @foreach (var tamaño in tamanosLetra)
+                {
+                    <option value="@tamaño.Valor">@tamaño.Valor</option>
+                }
+            </select>
+        </div>
+
+        <div class="form-group mb-3">
+            <label>Subir imagen como marca de agua (opcional):</label>
+            <input type="file" name="marcaAgua" accept="image/*" />
+        </div>
+
+        <button type="submit" class="btn btn-success">Generar PDF</button>
+    }
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('.btnMostrarForm').click(function () {
+            var id = $(this).data('id');
+            $('#registroIdForm').val(id);       
+            $('#formPDFIndividual').show();    
+            $('html, body').animate({ scrollTop: $('#formPDFIndividual').offset().top }, 'slow');
+        });
+    });
+</script>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="d0afdd9490fc411994df20bce40cdc74" Name="Diagram1" ZoomLevel="74">
+        <EntityTypeShape EntityType="PruebaTecnicaModel.DetallesImpresion" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="PruebaTecnicaModel.Registros" Width="1.5" PointX="4.75" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="PruebaTecnicaModel.TamanoHoja" Width="1.5" PointX="0.75" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="PruebaTecnicaModel.TamanoLetra" Width="1.5" PointX="0.5" PointY="3.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="PruebaTecnicaModel.TipoLetra" Width="1.5" PointX="6.625" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="PruebaTecnicaModel.Usuarios" Width="1.5" PointX="2.125" PointY="5.875" IsExpanded="true" />
+        <AssociationConnector Association="PruebaTecnicaModel.FK_DetallesImpresion_TamanoHoja" ManuallyRouted="false" />
+        <AssociationConnector Association="PruebaTecnicaModel.FK_DetallesImpresion_TamanoLetra" ManuallyRouted="false" />
+        <AssociationConnector Association="PruebaTecnicaModel.FK_DetallesImpresion_TipoLetra" ManuallyRouted="false" />
+        <AssociationConnector Association="PruebaTecnicaModel.FK_Registros_Usuarios" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="PruebaTecnicaModel.Permisos" Width="1.5" PointX="5.375" PointY="0.875" />
+        <EntityTypeShape EntityType="PruebaTecnicaModel.RolPermisos" Width="1.5" PointX="7.625" PointY="0.875" />
+        <AssociationConnector Association="PruebaTecnicaModel.FK_RolPermisos_Permisos" />
+        <EntityTypeShape EntityType="PruebaTecnicaModel.Roles" Width="1.5" PointX="8.75" PointY="6.25" />
+        <AssociationConnector Association="PruebaTecnicaModel.FK_RolPermisos_Roles" />
+        <AssociationConnector Association="PruebaTecnicaModel.FK_Usuarios_Roles" />
+        <EntityTypeShape EntityType="PruebaTecnicaModel.UsuarioPermisos" PointX="10.625" PointY="3" Width="1.5" />
+        <AssociationConnector Association="PruebaTecnicaModel.FK__UsuarioPe__IdPer__3D2915A8" />
+        <AssociationConnector Association="PruebaTecnicaModel.FK__UsuarioPe__IdUsu__3C34F16F" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

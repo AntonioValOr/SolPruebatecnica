@@ -1,0 +1,48 @@
+﻿@model Datos.Model.Usuarios
+
+@{
+    ViewBag.Title = "Cambiar Contraseña";
+}
+
+<h2>Cambiar Contraseña</h2>
+
+@using (Html.BeginForm("CambiarContrasena", "Usuarios", FormMethod.Post, new { @class = "form-horizontal" }))
+
+{
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(model => model.IdUsuario) 
+
+    <div class="form-horizontal">
+        <div class="form-group">
+            @Html.LabelFor(model => model.Usuario, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.Usuario)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Nueva contraseña", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="password" name="PasswordNueva" class="form-control" required />
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Confirmar contraseña", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="password" name="ConfirmarPassword" class="form-control" required />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Cambiar contraseña" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Volver al inicio", "VentanaInicio", "Usuarios", null, new { @class = "btn btn-secondary" })
+</div>

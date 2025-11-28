@@ -1,0 +1,53 @@
+﻿@{
+    
+    Layout = null;
+    ViewBag.Title = "Login";
+}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
+<div class="d-flex justify-content-center align-items-center vh-100 bg-light">
+    <div class="card shadow-lg p-4" style="width: 100%; max-width: 420px; border-radius: 1rem;">
+
+        <div class="text-center mb-4">
+            <i class="bi bi-person-circle display-1 text-primary"></i>
+
+            <div class="text-center mb-4">
+                <img src="~/Content/Images/logo.png" alt="Logo" class="mb-3" style="width: 200px; height: 200px;" />
+                <h3 class="mt-3 mb-1">Iniciar Sesión</h3>
+                <p class="text-muted">Ingresa tus datos para continuar</p>
+            </div>
+
+            @if (TempData["error"] != null)
+            {
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="bi bi-exclamation-triangle-fill me-1"></i>
+                    @TempData["error"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            }
+
+            @using (Html.BeginForm("LoginPost", "Home", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="mb-3">
+                    @Html.Label("Usuario", null, new { @class = "form-label fw-semibold" })
+                    @Html.TextBox("Usuario", null, new { @class = "form-control", placeholder = "Ingresa tu usuario", autocomplete = "off" })
+                </div>
+
+                <div class="mb-3">
+                    @Html.Label("Contraseña", null, new { @class = "form-label fw-semibold" })
+                    @Html.Password("Password", null, new { @class = "form-control", placeholder = "Ingresa tu contraseña" })
+                </div>
+
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary fw-semibold py-2">
+                        <i class="bi bi-box-arrow-in-right me-1"></i> Entrar
+                    </button>
+                </div>
+            }
+
+        </div>
+    </div>
+</div>

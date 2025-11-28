@@ -1,0 +1,48 @@
+﻿@model Datos.ClasEx.UsuariosEx
+
+@{
+    ViewBag.Title = "EliminarUsuario";
+}
+
+<h2>Eliminar Usuario</h2>
+
+<h4>¿Estás seguro de eliminar este usuario?</h4>
+<hr />
+<dl class="dl-horizontal">
+    @Html.HiddenFor(model => model.IdUsuario)
+
+    <dt>@Html.DisplayNameFor(m => m.IdUsuario)</dt>
+    <dd>@Html.DisplayFor(m => m.IdUsuario)</dd>
+
+    <dt>@Html.DisplayNameFor(m => m.Usuario)</dt>
+    <dd>@Html.DisplayFor(m => m.Usuario)</dd>
+
+    <dt>@Html.DisplayNameFor(m => m.Password)</dt>
+    <dd>@Html.DisplayFor(m => m.Password)</dd>
+
+    <dt>Horario Inicio</dt>
+    <dd>@(Model.HorarioInicioStr ?? "-")</dd>
+
+    <dt>Horario Fin</dt>
+    <dd>@(Model.HorarioFinStr ?? "-")</dd>
+
+    <dt>@Html.DisplayNameFor(m => m.Estatus)</dt>
+    <dd>@Model.EstatusTexto</dd>
+
+    <dt>@Html.DisplayNameFor(m => m.Rol)</dt>
+    <dd>@Html.DisplayFor(m => m.Rol)</dd>
+</dl>
+
+
+@using (Html.BeginForm("EliminarUsuarioPost", "Usuarios", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    @Html.Hidden("id", Model.IdUsuario)
+
+    <div class="form-actions no-color">
+        <input type="submit" value="Eliminar" class="btn btn-danger" /> |
+        @Html.ActionLink("Volver al listado", "VentanaInicio", "Usuarios", null, new { @class = "btn btn-secondary" })
+    </div>
+}
+

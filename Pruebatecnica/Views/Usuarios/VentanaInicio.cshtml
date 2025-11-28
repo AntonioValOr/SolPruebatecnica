@@ -1,0 +1,55 @@
+﻿@model IEnumerable<Datos.Model.Usuarios>
+
+<h2>Usuarios</h2>
+
+@if (TempData["error"] != null)
+{
+    <div class="alert alert-danger">@TempData["error"]</div>
+}
+<p>
+    @Html.ActionLink("Agregar Usuario", "CrearUsuario", "Usuarios", null, new { @class = "btn btn-primary" })
+</p>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Usuario</th>
+            <th>Rol</th>
+            <th>Estatus</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var u in Model)
+    {
+        <tr>
+            <td>@u.IdUsuario</td>
+            <td>@u.Usuario</td>
+            <td>@u.Rol</td>
+            <td>
+                @switch(u.Estatus)
+                {
+                    case 1:
+                        @:<span class="text-success">Activo</span>
+                        break;
+                    case 2:
+                        @:<span class="text-warning">Requiere cambio de contraseña</span>
+                        break;
+                    case 3:
+                        @:<span class="text-danger">Dado de baja</span>
+                        break;
+                }
+            </td>
+            <td>
+                @Html.ActionLink("Editar", "EditarUsuario", new { id = u.IdUsuario }) |
+                @Html.ActionLink("Eliminar", "EliminarUsuario", new { id = u.IdUsuario }) ||
+                @if (u.Estatus == 2)
+                {
+                    @Html.ActionLink("Cambiar Contraseña", "CambiarContrasena", "Usuarios", new { id = u.IdUsuario }, null)
+
+                }
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

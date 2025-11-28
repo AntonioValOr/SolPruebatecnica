@@ -1,0 +1,39 @@
+﻿@model Datos.Model.Registros
+
+@{
+    ViewBag.Title = "Eliminar Registro";
+}
+
+<h2>¿Seguro que deseas eliminar este registro?</h2>
+
+<div>
+
+    <hr />
+
+    <dl class="dl-horizontal">
+        <dt>Nombre:</dt>
+        <dd>@Model.Nombre</dd>
+        <dt>Contrato:</dt>
+        <dd>@Model.Contrato</dd>
+
+        <dt>Saldos:</dt>
+        <dd>@Model.Saldos</dd>
+
+        <dt>Fecha:</dt>
+        <dd>@Model.Fecha.ToString("yyyy-MM-dd")</dd>
+
+        <dt>Teléfono:</dt>
+        <dd>@Model.Telefono</dd>
+    </dl>
+
+    @using (Html.BeginForm("EliminarRegistroPost", "Registros", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        @Html.Hidden("id", Model.IdRegistro)
+
+        @Html.HiddenFor(m => m.IdUsuario)
+
+        <input type="submit" value="Eliminar" class="btn btn-danger" />
+        @Html.ActionLink("Cancelar", "InicioUsuario", null, new { @class = "btn btn-default" })
+    }
+</div>
